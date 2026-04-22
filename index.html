@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lakhan Parmar · DevOps & Cloud Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --surface: #0d1117;
+    --surface2: #161b22;
+    --border: #21262d;
+    --green: #00ff9d;
+    --green-dim: #00c97a;
+    --green-glow: rgba(0,255,157,0.15);
+    --amber: #f0a500;
+    --blue: #58a6ff;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--green);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    box-shadow: 0 0 15px var(--green), 0 0 30px rgba(0,255,157,0.4);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(0,255,157,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 9000;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 3rem;
+    background: rgba(8,12,16,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--green);
+    letter-spacing: 0.05em;
+  }
+  .nav-logo span { color: var(--muted); }
+  nav ul { display: flex; gap: 2rem; list-style: none; }
+  nav a {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--green); }
+
+  /* Hero */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Grid background */
+  #hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,157,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,157,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--green);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 40px; height: 1px;
+    background: var(--green);
+  }
+
+  .hero-name {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .hero-name .first { color: var(--text); }
+  .hero-name .last {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--green);
+    display: block;
+  }
+
+  .hero-title {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--muted);
+    margin: 1.5rem 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .blink {
+    display: inline-block;
+    width: 2px; height: 1.1em;
+    background: var(--green);
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .hero-meta {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .meta-item strong {
+    display: block;
+    font-size: 1.5rem;
+    color: var(--green);
+    font-family: var(--sans);
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.75rem;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: none;
+  }
+  .btn-primary {
+    background: var(--green);
+    color: var(--bg);
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(0,255,157,0.3);
+  }
+  .btn-primary:hover {
+    background: #fff;
+    box-shadow: 0 0 30px rgba(0,255,157,0.5);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .btn-ghost:hover { border-color: var(--green); color: var(--green); }
+
+  /* Terminal card */
+  .terminal-card {
+    position: absolute;
+    right: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 420px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(0,255,157,0.08), 0 30px 60px rgba(0,0,0,0.5);
+    animation: floatCard 4s ease-in-out infinite;
+  }
+  @keyframes floatCard {
+    0%,100% { transform: translateY(-50%) translateY(0); }
+    50% { transform: translateY(-50%) translateY(-12px); }
+  }
+  .terminal-bar {
+    background: var(--surface2);
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+  .terminal-title {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-left: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+  .terminal-body {
+    padding: 1.25rem 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    line-height: 1.9;
+  }
+  .t-prompt { color: var(--green); }
+  .t-cmd { color: var(--text); }
+  .t-out { color: var(--muted); }
+  .t-val { color: var(--amber); }
+  .t-key { color: var(--blue); }
+  .t-line { display: block; }
+
+  /* Sections */
+  section { padding: 6rem 3rem; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--green);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '//';
+    color: var(--muted);
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 3rem;
+    line-height: 1.1;
+  }
+
+  /* Impact numbers */
+  #impact { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .impact-item {
+    padding: 3rem 2rem;
+    border-right: 1px solid var(--border);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .impact-item:last-child { border-right: none; }
+  .impact-item::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--green);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    transform-origin: left;
+  }
+  .impact-item:hover::before { transform: scaleX(1); }
+  .impact-item:hover { background: rgba(0,255,157,0.03); }
+  .impact-num {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    font-family: var(--sans);
+  }
+  .impact-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Experience */
+  #experience { background: var(--bg); }
+  .exp-timeline { position: relative; }
+  .exp-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+  }
+  .exp-item {
+    padding-left: 2.5rem;
+    margin-bottom: 3.5rem;
+    position: relative;
+    animation: fadeUp 0.6s ease both;
+  }
+  .exp-item::before {
+    content: '';
+    position: absolute;
+    left: -4px; top: 0.35em;
+    width: 9px; height: 9px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--green);
+  }
+  .exp-period {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--green);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.4rem;
+  }
+  .exp-role {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .exp-company {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+  .exp-achievements {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .exp-achievements li {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .exp-achievements li::before {
+    content: '▸';
+    position: absolute; left: 0;
+    color: var(--green);
+    font-size: 0.7rem;
+    top: 0.15em;
+  }
+  .exp-achievements li strong { color: var(--text); }
+
+  /* Skills */
+  #skills { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), transparent);
+  }
+  .skill-card:hover {
+    border-color: rgba(0,255,157,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3), 0 0 20px rgba(0,255,157,0.05);
+  }
+  .skill-card-title {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--green);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .tag:hover { border-color: var(--green); color: var(--green); background: var(--green-glow); }
+
+  /* Awards */
+  #awards { background: var(--bg); }
+  .awards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .award-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .award-card:hover { transform: translateY(-4px); }
+  .award-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 10px rgba(0,255,157,0.3));
+  }
+  .award-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+  .award-desc {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .award-card.gold::before { background: linear-gradient(90deg, #f0a500, transparent); }
+  .award-card.silver::before { background: linear-gradient(90deg, #94a3b8, transparent); }
+  .award-card.green-award::before { background: linear-gradient(90deg, var(--green), transparent); }
+  .award-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  /* Education */
+  #education { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .edu-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    transition: all 0.3s;
+  }
+  .edu-card:hover { border-color: rgba(0,255,157,0.3); }
+  .edu-degree { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .edu-school { font-family: var(--mono); font-size: 0.8rem; color: var(--green); margin-bottom: 0.25rem; }
+  .edu-year { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+
+  /* Contact */
+  #contact { background: var(--bg); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--green); color: var(--green); }
+  .contact-icon { font-size: 1.1rem; }
+  .contact-cta {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .contact-sub {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface);
+  }
+  footer p { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--green);
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeUp 0.7s ease both; }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+
+  /* Glowing orbs */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    opacity: 0.2;
+  }
+  .orb-1 { width: 500px; height: 500px; background: var(--green); top: -200px; left: -200px; }
+  .orb-2 { width: 300px; height: 300px; background: var(--blue); bottom: 0; right: 100px; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { gap: 1rem; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 7rem 1.5rem 3rem; }
+    .terminal-card { display: none; }
+    .impact-grid { grid-template-columns: repeat(2, 1fr); }
+    .impact-item { border-bottom: 1px solid var(--border); }
+    .awards-grid, .edu-grid, .contact-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">lp<span>@devops</span>:~$</div>
+  <ul>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#awards">Awards</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow fade-in">Available for senior roles</div>
+    <h1 class="hero-name fade-in delay-1">
+      <span class="first">Lakhan</span>
+      <span class="last">Parmar</span>
+    </h1>
+    <p class="hero-title fade-in delay-2">
+      <span>DevOps &amp; Cloud Engineer // 5+ Years</span>
+      <span class="blink"></span>
+    </p>
+    <div class="hero-meta fade-in delay-3">
+      <div class="meta-item">
+        <strong>$395K+</strong>
+        Annual Cloud Savings
+      </div>
+      <div class="meta-item">
+        <strong>80%</strong>
+        Manual Effort Reduced
+      </div>
+      <div class="meta-item">
+        <strong>6+</strong>
+        AWS Environments
+      </div>
+    </div>
+    <div class="hero-actions fade-in delay-4">
+      <a href="mailto:lakhan.parmar1725@gmail.com" class="btn btn-primary">Get in Touch</a>
+      <a href="https://linkedin.com/in/lakhan-parmar-716aa81 5a" target="_blank" class="btn btn-ghost">LinkedIn Profile</a>
+    </div>
+  </div>
+
+  <!-- Terminal Card -->
+  <div class="terminal-card">
+    <div class="terminal-bar">
+      <span class="dot dot-r"></span>
+      <span class="dot dot-y"></span>
+      <span class="dot dot-g"></span>
+      <span class="terminal-title">lakhan@tiaa ~ infra-status.sh</span>
+    </div>
+    <div class="terminal-body">
+      <span class="t-line"><span class="t-prompt">❯</span> <span class="t-cmd">./whoami.sh</span></span>
+      <span class="t-line"><span class="t-key">role</span>     : <span class="t-val">Senior Cloud & SRE Engineer</span></span>
+      <span class="t-line"><span class="t-key">company</span>  : <span class="t-val">TIAA Global Capabilities</span></span>
+      <span class="t-line"><span class="t-key">location</span> : <span class="t-val">Pune, Maharashtra, IN</span></span>
+      <span class="t-line">&nbsp;</span>
+      <span class="t-line"><span class="t-prompt">❯</span> <span class="t-cmd">./cost-savings --summary</span></span>
+      <span class="t-line"><span class="t-out">Kinesis On-Demand .. </span><span class="t-val">$375,000/yr ✓</span></span>
+      <span class="t-line"><span class="t-out">EBS/EC2 Remediation. </span><span class="t-val">$10,000/yr  ✓</span></span>
+      <span class="t-line"><span class="t-out">Lambda Optimization. </span><span class="t-val">$10,000/mo  ✓</span></span>
+      <span class="t-line"><span class="t-out">──────────────────────────────</span></span>
+      <span class="t-line"><span class="t-out">TOTAL ANNUAL SAVINGS: </span><span class="t-val">$395,000+</span></span>
+      <span class="t-line">&nbsp;</span>
+      <span class="t-line"><span class="t-prompt">❯</span> <span class="t-cmd">./stack.sh --list</span></span>
+      <span class="t-line"><span class="t-out">AWS · EKS · Terraform · ArgoCD</span></span>
+      <span class="t-line"><span class="t-out">Python · Splunk · Prometheus · Helm</span></span>
+      <span class="t-line">&nbsp;</span>
+      <span class="t-line"><span class="t-prompt">❯</span> <span class="t-cmd">./status.sh</span></span>
+      <span class="t-line"><span class="t-val">🟢 Open to new opportunities</span><span class="blink"></span></span>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="section-inner">
+    <div class="impact-grid">
+      <div class="impact-item">
+        <div class="impact-num">$395K+</div>
+        <div class="impact-label">Annual AWS Savings Delivered</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-num">80%</div>
+        <div class="impact-label">Reduction in Manual Decommissioning</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-num">6+</div>
+        <div class="impact-label">Environments Managed (DEV→PROD)</div>
+      </div>
+      <div class="impact-item">
+        <div class="impact-num">5 yrs</div>
+        <div class="impact-label">Cloud & DevOps Engineering</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">Career</div>
+    <h2 class="section-title">Where I've Shipped</h2>
+    <div class="exp-timeline">
+
+      <div class="exp-item">
+        <div class="exp-period">AUG 2023 — PRESENT</div>
+        <div class="exp-role">Senior Analyst — Cloud Infrastructure & SRE</div>
+        <div class="exp-company">TIAA Global Capabilities · Pune, Maharashtra</div>
+        <ul class="exp-achievements">
+          <li><strong>FinOps Champion:</strong> Transitioned Kinesis Data Streams from Provisioned to On-Demand, saving <strong>$375K/year</strong>; additional $10K/yr via EBS/EC2 remediation and $10K/month through Lambda memory optimization.</li>
+          <li><strong>App Decommissioning Automation:</strong> Built a Boto3 + Terraform framework to identify, archive, and terminate AWS resources (EC2, EBS, RDS, S3, Lambda, IAM) — cutting manual effort by <strong>80%</strong>.</li>
+          <li><strong>Deprecation Monitoring:</strong> Implemented AWS Health API + Lambda to detect EOL service versions; automated SES email notifications to resource owners for timely upgrades.</li>
+          <li><strong>Compliance Automation:</strong> Engineered Lambda-based framework to audit resources for tagging, encryption, and App ID standards; auto-deleted non-compliant resources with detailed alerts.</li>
+          <li><strong>Runtime Deprecation Scanner:</strong> Built org-wide scanner for deprecated Lambda, EKS, and ECS runtimes with targeted owner email notifications.</li>
+          <li><strong>Observability Pipeline:</strong> Architected CloudWatch → Splunk HEC ingestion via Terraform, Lambda &amp; Kinesis with real-time subscription filters.</li>
+          <li><strong>CI/CD Multi-Env:</strong> Built one-click pipelines via Azure DevOps, CloudFormation &amp; Jenkins across DEV/UT/SIT/PT/VAL/PROD.</li>
+          <li><strong>LLM Automation:</strong> Actively building AI agents with Amazon Q, ChatGPT, and Claude to reduce infrastructure operational toil.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period">OCT 2020 — AUG 2023</div>
+        <div class="exp-role">Software Development Engineer 2 — DevOps</div>
+        <div class="exp-company">Genpact · Pune, Maharashtra</div>
+        <ul class="exp-achievements">
+          <li><strong>CI/CD Automation:</strong> Built fully automated multi-environment pipelines using Azure DevOps, CloudFormation, and Jenkins.</li>
+          <li><strong>Python/Boto3 Automation:</strong> Authored scripts to terminate idle EC2 instances, enforce tagging standards, and remove unused infrastructure.</li>
+          <li><strong>Container Orchestration:</strong> Managed containerized workloads on Amazon EKS with Kubernetes and Helm; maintained Docker images via ECR.</li>
+          <li><strong>IaC & Monitoring:</strong> Authored CloudFormation and Terraform scripts for EC2/VPC; configured CloudWatch for centralized log management.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">Tech Stack</div>
+    <h2 class="section-title">Tools of the Trade</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-title">☁ Cloud / AWS</div>
+        <div class="skill-tags">
+          <span class="tag">EC2 / EBS / S3</span>
+          <span class="tag">RDS</span>
+          <span class="tag">Lambda</span>
+          <span class="tag">Kinesis</span>
+          <span class="tag">IAM / VPC</span>
+          <span class="tag">Route 53</span>
+          <span class="tag">CloudTrail</span>
+          <span class="tag">EventBridge</span>
+          <span class="tag">SES</span>
+          <span class="tag">ECR</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">⚙ Container & Orchestration</div>
+        <div class="skill-tags">
+          <span class="tag">Kubernetes</span>
+          <span class="tag">EKS</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Helm</span>
+          <span class="tag">Argo CD</span>
+          <span class="tag">Argo Workflows</span>
+          <span class="tag">ECR</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">🏗 IaC & CI/CD</div>
+        <div class="skill-tags">
+          <span class="tag">Terraform</span>
+          <span class="tag">CloudFormation</span>
+          <span class="tag">Jenkins</span>
+          <span class="tag">GitLab CI</span>
+          <span class="tag">GitHub Actions</span>
+          <span class="tag">Azure DevOps</span>
+          <span class="tag">Ansible</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">📊 Observability</div>
+        <div class="skill-tags">
+          <span class="tag">Splunk HEC</span>
+          <span class="tag">SignalFx</span>
+          <span class="tag">Prometheus</span>
+          <span class="tag">CloudWatch</span>
+          <span class="tag">AWS Health API</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">🐍 Languages & Scripting</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Boto3</span>
+          <span class="tag">Bash</span>
+          <span class="tag">Shell Scripting</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">🤖 AI & Automation</div>
+        <div class="skill-tags">
+          <span class="tag">Amazon Q</span>
+          <span class="tag">ChatGPT</span>
+          <span class="tag">Claude AI</span>
+          <span class="tag">LLM Agents</span>
+          <span class="tag">Workflow Automation</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">💰 FinOps & Security</div>
+        <div class="skill-tags">
+          <span class="tag">FinOps</span>
+          <span class="tag">Cost Optimization</span>
+          <span class="tag">IAM Governance</span>
+          <span class="tag">DevSecOps</span>
+          <span class="tag">Encryption</span>
+          <span class="tag">Tagging Standards</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">🔧 SRE & Practices</div>
+        <div class="skill-tags">
+          <span class="tag">SLOs / SLAs</span>
+          <span class="tag">Incident Response</span>
+          <span class="tag">Agile</span>
+          <span class="tag">GitOps</span>
+          <span class="tag">Multi-Env Releases</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="section-inner">
+    <div class="section-label">Recognition</div>
+    <h2 class="section-title">Earned, Not Given</h2>
+    <div class="awards-grid">
+      <div class="award-card silver">
+        <div class="award-icon">🥈</div>
+        <div class="award-title">Silver Award — TIAA</div>
+        <div class="award-desc">Outstanding leadership in cloud infrastructure excellence. Recognized for driving significant platform improvements and cross-team collaboration.</div>
+      </div>
+      <div class="award-card gold">
+        <div class="award-icon">🥉</div>
+        <div class="award-title">Bronze Award — TIAA</div>
+        <div class="award-desc">Exceptional teamwork and technical problem-solving skills recognized at the organizational level for impactful engineering contributions.</div>
+      </div>
+      <div class="award-card green-award">
+        <div class="award-icon">💸</div>
+        <div class="award-title">Cost Optimization Champion</div>
+        <div class="award-desc">Delivered $395,000+ in annual AWS savings through targeted FinOps initiatives — Kinesis migration, EBS remediation, and Lambda optimization.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-label">Education</div>
+    <h2 class="section-title">Academic Foundation</h2>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-degree">Master of Computer Applications (MCA)</div>
+        <div class="edu-school">NIT Surathkal, Karnataka</div>
+        <div class="edu-year">2017 — 2020</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">B.Sc. Computer Science</div>
+        <div class="edu-school">Govt. College Barwani, MP</div>
+        <div class="edu-year">2013 — 2016</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">Let's Connect</div>
+    <div class="contact-grid">
+      <div>
+        <h2 class="contact-cta">Ready to build something great?</h2>
+        <p class="contact-sub">
+          I'm open to senior DevOps, Platform Engineering, and SRE roles.<br>
+          Let's talk about infrastructure, automation, and cloud at scale.
+        </p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:lakhan.parmar1725@gmail.com" class="contact-link">
+          <span class="contact-icon">✉</span>
+          lakhan.parmar1725@gmail.com
+        </a>
+        <a href="tel:+919113536834" class="contact-link">
+          <span class="contact-icon">📞</span>
+          +91-9113536834
+        </a>
+        <a href="https://linkedin.com/in/lakhan-parmar-716aa81 5a" target="_blank" class="contact-link">
+          <span class="contact-icon">in</span>
+          linkedin.com/in/lakhan-parmar
+        </a>
+        <a href="#" class="contact-link">
+          <span class="contact-icon">📍</span>
+          Pune, Maharashtra, India
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Lakhan Parmar · DevOps & Cloud Engineer</p>
+  <div class="footer-status">
+    <span class="status-dot"></span>
+    Open to Opportunities
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.left = mouseX - 6 + 'px';
+    cursor.style.top = mouseY - 6 + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Hover effects on interactive elements
+  document.querySelectorAll('a, button, .skill-card, .award-card, .impact-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'scale(1.8)';
+      ring.style.transform = 'translate(-50%, -50%) scale(1.4)';
+      ring.style.borderColor = 'rgba(0,255,157,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'scale(1)';
+      ring.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.borderColor = 'rgba(0,255,157,0.5)';
+    });
+  });
+
+  // Intersection Observer for fade-in
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+        entry.target.style.opacity = '1';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.exp-item, .skill-card, .award-card, .edu-card, .impact-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.animation = 'fadeUp 0.6s ease both paused';
+    observer.observe(el);
+  });
+
+  // Typed terminal effect
+  const lines = document.querySelectorAll('.terminal-body .t-line');
+  lines.forEach((line, i) => {
+    line.style.opacity = '0';
+    setTimeout(() => {
+      line.style.transition = 'opacity 0.3s';
+      line.style.opacity = '1';
+    }, i * 200);
+  });
+
+  // Counter animation for impact numbers
+  function animateCount(el, target, prefix = '', suffix = '') {
+    const isK = target.toString().includes('K') || suffix.includes('K');
+    const numTarget = parseFloat(target.replace(/[^0-9.]/g, ''));
+    let start = 0;
+    const duration = 2000;
+    const startTime = performance.now();
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(ease * numTarget * 10) / 10;
+      el.textContent = prefix + (Number.isInteger(current) ? current : current.toFixed(0)) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const impactObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('.impact-num');
+        const targets = ['$395K+', '80%', '6+', '5 yrs'];
+        nums.forEach((num, i) => {
+          setTimeout(() => { num.textContent = targets[i]; }, i * 200);
+        });
+        impactObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const impactSection = document.getElementById('impact');
+  if (impactSection) impactObserver.observe(impactSection);
+</script>
+
+</body>
+</html>
