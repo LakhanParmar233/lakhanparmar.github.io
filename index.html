@@ -3,516 +3,659 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Lakhan Parmar | DevOps & Cloud Engineer</title>
+<title>Lakhan Parmar — DevOps & Cloud Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:        #0a0e0a;
-    --bg2:       #0f140f;
-    --bg3:       #141a14;
-    --border:    #1e2a1e;
-    --green:     #4af626;
-    --green-dim: #2d9c18;
-    --green-glow:rgba(74,246,38,0.12);
-    --green-faint:rgba(74,246,38,0.05);
-    --text:      #c8d8c8;
-    --muted:     #5a7a5a;
-    --muted2:    #3d5c3d;
-    --mono:      'JetBrains Mono', 'Fira Code', monospace;
-  }
+:root {
+  --bg:    #09090c;
+  --bg1:   #0f0f14;
+  --bg2:   #13131a;
+  --bg3:   #1c1c26;
+  --gold:  #e8b86d;
+  --gold2: #c9933a;
+  --goldg: rgba(232,184,109,0.1);
+  --white: #f0ede8;
+  --muted: #7a7a8c;
+  --dim:   #3e3e52;
+  --bdr:   rgba(255,255,255,0.07);
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --mono:  'DM Mono', monospace;
+}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);line-height:1.65;overflow-x:hidden}
+::selection{background:var(--gold);color:var(--bg)}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold2)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 3.5rem;
+  background:rgba(9,9,12,0.85);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--bdr);
+}
+.nav-logo{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:var(--gold)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:0.71rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{font-size:0.71rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:.5rem 1.3rem;border:1px solid var(--gold2);color:var(--gold);border-radius:2px;transition:all .2s}
+.nav-cta:hover{background:var(--gold);color:var(--bg)}
 
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--green-dim); border-radius: 2px; }
+/* ── HERO ── */
+#hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;
+  padding:8rem 3.5rem 5rem;gap:4rem;
+  position:relative;overflow:hidden;
+}
+#hero::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(232,184,109,0.07) 0%,transparent 70%);top:-150px;left:-250px;pointer-events:none}
+#hero::after{content:'';position:absolute;width:350px;height:350px;background:radial-gradient(circle,rgba(90,110,255,0.05) 0%,transparent 70%);bottom:50px;right:0;pointer-events:none}
 
-  a { color: var(--green); text-decoration: none; transition: opacity 0.2s; }
-  a:hover { opacity: 0.75; }
+.hero-left{position:relative;z-index:1}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--mono);font-size:0.67rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--gold);border:1px solid rgba(232,184,109,.28);padding:.38rem .9rem;border-radius:100px;
+  margin-bottom:1.75rem;background:rgba(232,184,109,.05);
+}
+.hero-badge .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:bpulse 2s ease-in-out infinite}
+@keyframes bpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    background: rgba(10,14,10,0.92);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    padding: 0.9rem 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 100;
-  }
-  .nav-brand { color: var(--green); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.03em; }
-  .nav-brand .dim { color: var(--muted); font-weight: 300; }
-  .nav-links { display: flex; gap: 0.25rem; list-style: none; }
-  .nav-links a { font-size: 0.72rem; color: var(--muted); padding: 0.35rem 0.6rem; border-radius: 3px; transition: all 0.2s; }
-  .nav-links a:hover { color: var(--green); background: var(--green-faint); opacity: 1; }
+.hero-name{font-family:var(--serif);font-size:clamp(2.8rem,5vw,5.2rem);font-weight:900;line-height:1.0;letter-spacing:-.02em;margin-bottom:1.4rem}
+.hero-name .l1{display:block;color:var(--white)}
+.hero-name .l2{display:block;color:transparent;-webkit-text-stroke:1px rgba(240,237,232,.25);font-style:italic}
 
-  /* HERO */
-  #hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 7rem 2.5rem 4rem;
-    max-width: 900px; margin: 0 auto;
-  }
-  .hero-cmd { font-size: 0.8rem; color: var(--muted); margin-bottom: 2.5rem; }
-  .hero-cmd .prompt { color: var(--green); margin-right: 0.5rem; }
-  .hero-name { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: var(--green); line-height: 1.1; margin-bottom: 0.5rem; }
-  .hero-title { font-size: 1rem; font-weight: 300; color: var(--muted); margin-bottom: 2.5rem; }
+.hero-desc{font-size:.97rem;color:var(--muted);line-height:1.85;max-width:430px;margin-bottom:2.2rem;font-weight:300}
+.hero-desc strong{color:var(--white);font-weight:500}
 
-  .hero-stats {
-    display: flex; flex-wrap: wrap; gap: 0;
-    border: 1px solid var(--border); border-radius: 4px;
-    margin-bottom: 2.5rem; overflow: hidden;
-  }
-  .hero-stat { flex: 1; min-width: 140px; padding: 0.85rem 1.25rem; border-right: 1px solid var(--border); font-size: 0.72rem; }
-  .hero-stat:last-child { border-right: none; }
-  .hero-stat .cmd { color: var(--muted); display: block; margin-bottom: 0.2rem; }
-  .hero-stat .val { color: var(--green); font-weight: 600; font-size: 0.82rem; }
+.hero-btns{display:flex;gap:.9rem;flex-wrap:wrap}
+.btn-primary{font-size:.73rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.82rem 1.9rem;background:var(--gold);color:var(--bg);border-radius:2px;transition:all .25s;box-shadow:0 4px 28px rgba(232,184,109,.2)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(232,184,109,.3)}
+.btn-sec{font-size:.73rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.82rem 1.9rem;border:1px solid var(--bdr);color:var(--muted);border-radius:2px;transition:all .25s}
+.btn-sec:hover{border-color:var(--gold2);color:var(--gold)}
 
-  .hero-info { font-size: 0.78rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem; }
-  .hero-info span { display: flex; align-items: center; gap: 0.4rem; }
-  .hero-info .lbl { color: var(--muted2); }
-  .hero-info .val { color: var(--text); }
+.hero-right{position:relative;z-index:1;display:flex;flex-direction:column;gap:.9rem}
+.stat-card{
+  background:var(--bg1);border:1px solid var(--bdr);border-radius:12px;
+  padding:1.4rem 1.8rem;position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s;
+}
+.stat-card:hover{border-color:rgba(232,184,109,.2);transform:translateX(-5px)}
+.stat-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--gold),transparent);border-radius:3px 0 0 3px}
+.stat-num{font-family:var(--serif);font-size:2.2rem;font-weight:700;color:var(--gold);line-height:1;margin-bottom:.25rem}
+.stat-lbl{font-size:.77rem;color:var(--muted);letter-spacing:.04em}
+.stat-sub{font-family:var(--mono);font-size:.62rem;color:var(--dim);margin-top:.35rem;letter-spacing:.04em}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
 
-  .hero-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .hero-nav a { font-size: 0.75rem; color: var(--muted); padding: 0.4rem 0.9rem; border: 1px solid var(--border); border-radius: 3px; transition: all 0.2s; }
-  .hero-nav a:hover { color: var(--green); border-color: var(--green-dim); background: var(--green-faint); opacity: 1; }
+/* ── SECTION SHARED ── */
+.wrap{max-width:1280px;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:.67rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.75rem}
+.eyebrow::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold2),transparent);max-width:120px}
+.sec-title{font-family:var(--serif);font-size:clamp(1.9rem,3vw,2.8rem);font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
-  .cursor { display: inline-block; width: 9px; height: 1em; background: var(--green); vertical-align: middle; margin-left: 3px; animation: blink 1s step-end infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+/* ── ABOUT ── */
+#about{padding:7rem 3.5rem;border-top:1px solid var(--bdr)}
+.about-grid{display:grid;grid-template-columns:260px 1fr;gap:5rem;max-width:1280px;margin:0 auto}
+.about-body{font-size:.97rem;color:rgba(240,237,232,.7);line-height:1.9;font-weight:300}
+.about-body p+p{margin-top:1.2rem}
+.about-body strong{color:var(--white);font-weight:500}
+.about-meta{display:flex;gap:2rem;flex-wrap:wrap;margin-top:2.2rem;padding-top:2rem;border-top:1px solid var(--bdr)}
+.meta-item-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.3rem}
+.meta-item-val{font-size:.86rem;color:var(--white);font-weight:500}
+.meta-item-val a{color:var(--gold)}
 
-  /* SECTIONS */
-  section { padding: 5rem 2.5rem; max-width: 900px; margin: 0 auto; border-top: 1px solid var(--border); }
-  .sec-cmd { font-size: 0.72rem; color: var(--muted); margin-bottom: 1.75rem; display: flex; align-items: center; gap: 0.5rem; }
-  .sec-cmd .prompt { color: var(--green); }
-  .sec-cmd .path { color: var(--green); font-weight: 600; }
-  .sec-cmd .comment { color: var(--muted2); margin-left: 0.5rem; }
-  .sec-title { font-size: 1.5rem; font-weight: 700; color: var(--green); margin-bottom: 1.5rem; }
+/* ── EXPERIENCE ── */
+#experience{padding:7rem 3.5rem;background:var(--bg1);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.exp-list{display:flex;flex-direction:column;gap:1rem;margin-top:3rem}
+.exp-card{background:var(--bg);border:1px solid var(--bdr);border-radius:10px;overflow:hidden;transition:border-color .3s}
+.exp-card:hover{border-color:rgba(232,184,109,.18)}
 
-  /* ABOUT */
-  .about-text { font-size: 0.88rem; color: var(--text); line-height: 1.85; max-width: 720px; }
+.exp-head{
+  display:grid;grid-template-columns:1fr auto;align-items:start;gap:1.5rem;
+  padding:1.8rem 2.2rem;cursor:pointer;user-select:none;
+}
+.exp-period{font-family:var(--mono);font-size:.67rem;letter-spacing:.1em;color:var(--gold);margin-bottom:.45rem}
+.exp-role{font-family:var(--serif);font-size:1.25rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.exp-co{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:.4rem}
+.exp-co::before{content:'·';color:var(--gold)}
 
-  /* EXPERIENCE */
-  .exp-item { margin-bottom: 2.75rem; padding-left: 1.5rem; border-left: 2px solid var(--border); transition: border-color 0.3s; }
-  .exp-item:hover { border-color: var(--green-dim); }
-  .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.3rem; }
-  .exp-role { font-size: 1rem; font-weight: 600; color: var(--green); }
-  .exp-period { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; }
-  .exp-company { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
-  .exp-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-  .exp-list li { font-size: 0.82rem; color: var(--text); line-height: 1.7; padding-left: 1.1rem; position: relative; }
-  .exp-list li::before { content: '▸'; position: absolute; left: 0; color: var(--green); font-size: 0.65rem; top: 0.3em; }
-  .exp-list li strong { color: var(--green); font-weight: 500; }
+.exp-btn{width:30px;height:30px;border:1px solid var(--bdr);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1.1rem;line-height:1;transition:all .3s;flex-shrink:0;margin-top:.15rem;background:none}
+.exp-card.open .exp-btn{transform:rotate(45deg);border-color:var(--gold);color:var(--gold)}
 
-  /* SKILLS */
-  .skills-output { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
-  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
-  .skill-group { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1.1rem 1.25rem; transition: border-color 0.3s; }
-  .skill-group:hover { border-color: var(--green-dim); }
-  .skill-group-title { font-size: 0.68rem; color: var(--muted2); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
-  .skill-list li { font-size: 0.78rem; color: var(--text); display: flex; align-items: center; gap: 0.4rem; }
-  .skill-list li::before { content: '─'; color: var(--green-dim); }
+.exp-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1)}
+.exp-card.open .exp-body{max-height:2000px}
 
-  /* PROJECTS */
-  .project-grid { display: flex; flex-direction: column; gap: 1.25rem; }
-  .project-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; transition: border-color 0.3s, background 0.3s; }
-  .project-card:hover { border-color: var(--green-dim); background: var(--bg3); }
-  .project-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.6rem; }
-  .project-name { font-size: 0.95rem; font-weight: 600; color: var(--green); }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .project-tag { font-size: 0.65rem; color: var(--muted); border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 2px; }
-  .project-desc { font-size: 0.8rem; color: var(--text); line-height: 1.75; }
+.exp-bullets{
+  padding:.25rem 2.2rem 2rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:.7rem;
+}
+.ebul{
+  background:var(--bg1);border:1px solid var(--bdr);border-radius:6px;
+  padding:.9rem 1rem .9rem 1.8rem;font-size:.8rem;color:rgba(240,237,232,.7);
+  line-height:1.65;position:relative;
+}
+.ebul::before{content:'';position:absolute;left:.75rem;top:1.05rem;width:5px;height:5px;background:var(--gold);border-radius:50%}
+.ebul strong{color:var(--white);font-weight:500}
 
-  /* AWARDS */
-  .awards-list { display: flex; flex-direction: column; gap: 0.75rem; }
-  .award-item { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 1.25rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; transition: border-color 0.3s; }
-  .award-item:hover { border-color: var(--green-dim); }
-  .award-icon { font-size: 1.2rem; }
-  .award-title { font-size: 0.88rem; font-weight: 600; color: var(--green); margin-bottom: 0.2rem; }
-  .award-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.65; }
+/* ── SKILLS BENTO ── */
+#skills{padding:7rem 3.5rem;max-width:1280px;margin:0 auto}
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem}
+.bento-row2{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+.bento-row3{display:grid;grid-template-columns:5fr 4fr 3fr;gap:1rem;margin-top:1rem}
 
-  /* EDUCATION */
-  .edu-list { display: flex; flex-direction: column; gap: 1rem; }
-  .edu-item { padding: 1.1rem 1.25rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; transition: border-color 0.3s; }
-  .edu-item:hover { border-color: var(--green-dim); }
-  .edu-degree { font-size: 0.9rem; font-weight: 600; color: var(--green); margin-bottom: 0.2rem; }
-  .edu-school { font-size: 0.78rem; color: var(--muted); }
-  .edu-year { font-size: 0.72rem; color: var(--muted2); white-space: nowrap; }
+.bc{
+  background:var(--bg1);border:1px solid var(--bdr);border-radius:12px;
+  padding:1.6rem;transition:border-color .3s,transform .3s;position:relative;overflow:hidden;
+}
+.bc::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at top left,rgba(232,184,109,.03),transparent 65%);pointer-events:none}
+.bc:hover{border-color:rgba(232,184,109,.2);transform:translateY(-3px)}
 
-  /* CONTACT */
-  .contact-links { display: flex; flex-direction: column; gap: 0.65rem; }
-  .contact-link { display: flex; align-items: center; gap: 0.75rem; font-size: 0.82rem; color: var(--text); padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg2); transition: all 0.2s; }
-  .contact-link:hover { border-color: var(--green-dim); color: var(--green); background: var(--green-faint); opacity: 1; }
-  .contact-link .lbl { color: var(--muted2); min-width: 70px; font-size: 0.72rem; }
+.bc-title{font-family:var(--mono);font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem}
+.bc-tags{display:flex;flex-wrap:wrap;gap:.45rem}
+.btag{font-size:.73rem;color:rgba(240,237,232,.7);background:var(--bg2);border:1px solid var(--bdr);padding:.28rem .7rem;border-radius:100px;transition:all .2s;white-space:nowrap}
+.btag:hover{border-color:var(--gold2);color:var(--gold)}
 
-  /* FOOTER */
-  footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; text-align: center; font-size: 0.72rem; color: var(--muted2); line-height: 1.8; }
-  footer span { color: var(--green-dim); }
+.bc-big{
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  display:flex;flex-direction:column;justify-content:center;
+}
+.bc-big .big-n{font-family:var(--serif);font-size:3.5rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:.4rem}
+.bc-big .big-l{font-size:.85rem;color:var(--muted);font-weight:300}
 
-  /* Reveal */
-  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+/* ── PROJECTS ── */
+#projects{padding:7rem 3.5rem;background:var(--bg1);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:3rem}
+.pc{
+  background:var(--bg);border:1px solid var(--bdr);border-radius:12px;padding:1.8rem;
+  display:flex;flex-direction:column;gap:.9rem;transition:all .3s;position:relative;overflow:hidden;
+}
+.pc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.pc:hover{border-color:rgba(232,184,109,.2);transform:translateY(-4px)}
+.pc:hover::before{transform:scaleX(1)}
+.pc-num{font-family:var(--serif);font-size:.73rem;color:var(--dim);font-style:italic}
+.pc-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--white);line-height:1.3}
+.pc-desc{font-size:.8rem;color:rgba(240,237,232,.6);line-height:1.75;font-weight:300;flex:1}
+.pc-tags{display:flex;flex-wrap:wrap;gap:.38rem;margin-top:auto}
+.ptag{font-family:var(--mono);font-size:.59rem;color:var(--gold);border:1px solid rgba(232,184,109,.22);padding:.18rem .5rem;border-radius:3px;letter-spacing:.04em}
 
-  @media (max-width: 640px) {
-    nav { padding: 0.8rem 1.25rem; }
-    .nav-links { display: none; }
-    #hero, section { padding-left: 1.25rem; padding-right: 1.25rem; }
-    .hero-stats { flex-direction: column; }
-    .hero-stat { border-right: none; border-bottom: 1px solid var(--border); }
-    .hero-stat:last-child { border-bottom: none; }
-  }
+/* ── AWARDS ── */
+#awards{padding:7rem 3.5rem;max-width:1280px;margin:0 auto}
+.awards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:3rem}
+.aw{background:var(--bg1);border:1px solid var(--bdr);border-radius:12px;padding:2.2rem;display:flex;flex-direction:column;gap:1.1rem;transition:all .3s}
+.aw:hover{border-color:rgba(232,184,109,.22);transform:translateY(-4px)}
+.aw-icon{width:46px;height:46px;background:var(--goldg);border:1px solid rgba(232,184,109,.18);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.aw-title{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--white)}
+.aw-co{font-family:var(--mono);font-size:.62rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-top:.2rem}
+.aw-desc{font-size:.8rem;color:var(--muted);line-height:1.7;font-weight:300}
+
+/* ── EDUCATION ── */
+#education{padding:7rem 3.5rem;background:var(--bg1);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:3rem}
+.ec{background:var(--bg);border:1px solid var(--bdr);border-radius:12px;padding:2.2rem;display:flex;justify-content:space-between;align-items:flex-start;gap:1.5rem;transition:border-color .3s}
+.ec:hover{border-color:rgba(232,184,109,.18)}
+.ec-badge{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(232,184,109,.28);padding:.28rem .75rem;border-radius:100px;margin-bottom:.9rem;display:inline-block;background:rgba(232,184,109,.05)}
+.ec-deg{font-family:var(--serif);font-size:1.1rem;font-weight:700;margin-bottom:.35rem}
+.ec-school{font-size:.82rem;color:var(--muted)}
+.ec-year{font-family:var(--mono);font-size:.72rem;color:var(--dim);white-space:nowrap;padding-top:.2rem}
+
+/* ── CONTACT ── */
+#contact{padding:7rem 3.5rem;max-width:1280px;margin:0 auto}
+.contact-box{
+  border:1px solid var(--bdr);border-radius:16px;padding:4.5rem;
+  background:var(--bg1);display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+  position:relative;overflow:hidden;
+}
+.contact-box::before{content:'';position:absolute;width:450px;height:450px;background:radial-gradient(circle,rgba(232,184,109,.05) 0%,transparent 70%);top:-200px;right:-150px;pointer-events:none}
+.contact-head{font-family:var(--serif);font-size:clamp(1.8rem,2.8vw,2.6rem);font-weight:700;line-height:1.2;margin-bottom:.9rem}
+.contact-head em{color:var(--gold);font-style:italic}
+.contact-sub{font-size:.88rem;color:var(--muted);line-height:1.8;font-weight:300}
+.clinks{display:flex;flex-direction:column;gap:.65rem}
+.clink{display:flex;align-items:center;gap:.9rem;padding:.85rem 1.2rem;background:var(--bg);border:1px solid var(--bdr);border-radius:8px;font-size:.82rem;color:var(--muted);transition:all .22s}
+.clink:hover{border-color:rgba(232,184,109,.28);color:var(--gold);transform:translateX(5px)}
+.clbl{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);min-width:62px}
+
+/* ── FOOTER ── */
+footer{padding:2.2rem 3.5rem;border-top:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center;font-size:.73rem;color:var(--muted)}
+footer a{color:var(--gold)}
+
+/* ── REVEAL ANIMATION ── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.4,0,.2,1),transform .65s cubic-bezier(.4,0,.2,1)}
+.rv.show{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav{padding:.9rem 1.5rem}
+  .nav-links{display:none}
+  #hero{grid-template-columns:1fr;padding:6.5rem 1.5rem 3.5rem;gap:2.5rem}
+  .hero-right{display:none}
+  .about-grid{grid-template-columns:1fr;gap:2rem;padding:0}
+  #about,#experience,#skills,#projects,#awards,#education,#contact{padding:4.5rem 1.5rem}
+  .bento,.bento-row2,.bento-row3{grid-template-columns:1fr 1fr}
+  .bc-big .big-n{font-size:2.5rem}
+  .proj-grid,.awards-grid,.edu-grid{grid-template-columns:1fr}
+  .contact-box{grid-template-columns:1fr;padding:2.5rem;gap:2rem}
+  .exp-bullets{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:.6rem;text-align:center}
+}
+@media(max-width:640px){
+  .bento,.bento-row2,.bento-row3{grid-template-columns:1fr}
+  .stat-row{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <div class="nav-brand"><span class="dim">~/</span>lakhan-parmar<span class="dim"> $</span></div>
+  <div class="nav-logo">Lakhan Parmar</div>
   <ul class="nav-links">
-    <li><a href="#about">cd /about</a></li>
-    <li><a href="#experience">cd /experience</a></li>
-    <li><a href="#skills">cd /skills</a></li>
-    <li><a href="#projects">cd /projects</a></li>
-    <li><a href="#awards">cd /awards</a></li>
-    <li><a href="#contact">cd /contact</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#awards">Awards</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
+  <a href="mailto:lakhan.parmar1725@gmail.com" class="nav-cta">Contact</a>
 </nav>
 
 <!-- HERO -->
-<section id="hero" style="border-top:none;">
-  <div class="hero-cmd reveal">
-    <span class="prompt">❯</span> kubectl get events --field-selector reason=Hiring
-  </div>
-  <h1 class="hero-name reveal">Lakhan Parmar<span class="cursor"></span></h1>
-  <p class="hero-title reveal">## DevOps &amp; Cloud Engineer</p>
-
-  <div class="hero-stats reveal">
-    <div class="hero-stat">
-      <span class="cmd">whoami</span>
-      <span class="val">DevOps &amp; SRE Engineer</span>
-    </div>
-    <div class="hero-stat">
-      <span class="cmd">uptime</span>
-      <span class="val">5+ years in cloud infrastructure</span>
-    </div>
-    <div class="hero-stat">
-      <span class="cmd">finops --savings</span>
-      <span class="val">$395,000+ annual AWS savings</span>
-    </div>
-    <div class="hero-stat">
-      <span class="cmd">efficiency</span>
-      <span class="val">80% manual effort reduced</span>
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-badge rv"><span class="dot"></span>DevOps &amp; Cloud Engineer</div>
+    <h1 class="hero-name rv d1">
+      <span class="l1">Lakhan</span>
+      <span class="l2">Parmar.</span>
+    </h1>
+    <p class="hero-desc rv d2">
+      <strong>Senior Cloud &amp; SRE Engineer</strong> with 5+ years engineering resilient AWS infrastructure at enterprise scale.
+      Delivered <strong>$395,000+ in annual cost savings</strong> and eliminated 80% of manual operational toil across global financial platforms.
+    </p>
+    <div class="hero-btns rv d3">
+      <a href="mailto:lakhan.parmar1725@gmail.com" class="btn-primary">Get In Touch</a>
+      <a href="https://www.linkedin.com/in/lakhan-parmar-716aa815a/" target="_blank" class="btn-sec">LinkedIn →</a>
     </div>
   </div>
 
-  <div class="hero-info reveal">
-    <span><span class="lbl">email:</span><span class="val">lakhan.parmar1725@gmail.com</span></span>
-    <span><span class="lbl">phone:</span><span class="val">+91-9113536834</span></span>
-    <span><span class="lbl">location:</span><span class="val">Pune, Maharashtra, IN</span></span>
-    <span><span class="lbl">linkedin:</span><a href="https://www.linkedin.com/in/lakhan-parmar-716aa815a/" target="_blank">linkedin.com/in/lakhan-parmar</a></span>
-  </div>
-
-  <div class="hero-nav reveal">
-    <a href="#about">cd /about</a>
-    <a href="#experience">cd /experience</a>
-    <a href="#skills">ls -la /skills</a>
-    <a href="#projects">cd /projects</a>
-    <a href="#awards">cd /awards</a>
-    <a href="#contact">cd /contact</a>
+  <div class="hero-right">
+    <div class="stat-card rv d1">
+      <div class="stat-num">$395K+</div>
+      <div class="stat-lbl">Annual AWS Cost Savings Delivered</div>
+      <div class="stat-sub">Kinesis · EBS/EC2 · Lambda optimization</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-card rv d2">
+        <div class="stat-num">80%</div>
+        <div class="stat-lbl">Manual Effort Reduced</div>
+        <div class="stat-sub">Boto3 + Terraform automation</div>
+      </div>
+      <div class="stat-card rv d3">
+        <div class="stat-num">5+</div>
+        <div class="stat-lbl">Years Experience</div>
+        <div class="stat-sub">TIAA · Genpact</div>
+      </div>
+    </div>
+    <div class="stat-card rv d4">
+      <div class="stat-num" style="font-size:1.5rem;line-height:1.3">NIT Surathkal</div>
+      <div class="stat-lbl">Master of Computer Applications — MCA</div>
+      <div class="stat-sub">National Institute of Technology, Karnataka</div>
+    </div>
   </div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="sec-cmd reveal"><span class="prompt">❯</span><span class="path">cat about.md</span><span class="comment"># whoami</span></div>
-  <h2 class="sec-title reveal">About Me</h2>
-  <p class="about-text reveal">
-    Results-driven DevOps and Cloud Engineer with 5+ years of experience in AWS Cloud infrastructure, CI/CD pipelines,
-    container orchestration, and FinOps. Proven track record delivering <strong style="color:var(--green)">$395,000+</strong> in annual cloud cost savings,
-    enterprise-grade automation, and observability solutions across global financial services organizations.
-    Passionate about building scalable, reliable platforms through cross-functional collaboration and continuous innovation.
-    Actively building <strong style="color:var(--green)">LLM-powered DevOps automation agents</strong> using Amazon Q, ChatGPT, and Claude
-    to streamline infrastructure workflows and reduce operational toil.
-  </p>
+  <div class="about-grid">
+    <div>
+      <div class="eyebrow rv">About</div>
+      <h2 class="sec-title rv d1">The<br><em style="font-style:italic;color:var(--gold)">engineer</em><br>behind the cloud.</h2>
+    </div>
+    <div>
+      <div class="about-body rv d1">
+        <p>Results-driven DevOps and Cloud Engineer with a strong academic foundation from <strong>NIT Surathkal</strong> — one of India's premier technical institutions. I specialise in AWS cloud infrastructure, CI/CD pipelines, container orchestration, and FinOps at enterprise scale.</p>
+        <p>At <strong>TIAA Global Capabilities</strong>, I engineered automation frameworks that eliminated $395,000+ in annual cloud waste, reduced manual decommissioning effort by 80%, and built organisation-wide observability pipelines serving global financial systems.</p>
+        <p>I'm actively building <strong>LLM-powered DevOps automation agents</strong> — applying Amazon Q, Claude AI, and ChatGPT to real-world SRE challenges such as runbook generation and alert triage. Infrastructure is a product; I engineer it like one.</p>
+      </div>
+      <div class="about-meta rv d2">
+        <div class="meta-item">
+          <div class="meta-item-label">Location</div>
+          <div class="meta-item-val">Pune, Maharashtra, IN</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-item-label">Current Role</div>
+          <div class="meta-item-val">Senior Analyst — Cloud &amp; SRE</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-item-label">Email</div>
+          <div class="meta-item-val"><a href="mailto:lakhan.parmar1725@gmail.com">lakhan.parmar1725@gmail.com</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- EXPERIENCE -->
 <section id="experience">
-  <div class="sec-cmd reveal"><span class="prompt">❯</span><span class="path">cat experience.yaml</span><span class="comment"># work history</span></div>
-  <h2 class="sec-title reveal">Work Experience</h2>
+  <div class="wrap">
+    <div class="eyebrow rv">Career</div>
+    <h2 class="sec-title rv d1">Work Experience</h2>
+    <div class="exp-list">
 
-  <div class="exp-item reveal">
-    <div class="exp-header">
-      <span class="exp-role">Senior Analyst — Cloud Infrastructure &amp; SRE</span>
-      <span class="exp-period">Aug 2023 — Present</span>
-    </div>
-    <div class="exp-company">TIAA Global Capabilities · Pune, Maharashtra</div>
-    <ul class="exp-list">
-      <li>Managed multiple AWS environments (DEV, UT, SIT, PT, VAL, PROD) across two global organizations ensuring operational continuity.</li>
-      <li><strong>FinOps — $395K+ Annual Savings:</strong> Transitioned Kinesis Data Streams Provisioned → On-Demand ($375K/yr); additional $10K/yr from EBS/EC2 remediation and $10K/month from Lambda memory optimization.</li>
-      <li><strong>App Decommissioning Automation:</strong> Boto3 + Terraform framework to identify, archive, and terminate orphaned AWS resources (EC2, EBS, RDS, S3, Lambda, IAM) — reducing manual effort by 80%.</li>
-      <li><strong>Deprecation Monitoring:</strong> AWS Health API + Lambda detecting EOL service versions; automated SES email alerts to resource owners for timely upgrades.</li>
-      <li><strong>Compliance Automation:</strong> Lambda-based framework auditing AWS resources for tagging, encryption, and App ID standards — auto-deleting non-compliant resources with notifications.</li>
-      <li><strong>Runtime Deprecation Scanner:</strong> Org-wide scanner for deprecated Lambda, EKS, ECS runtimes with targeted owner notifications via internal API integration.</li>
-      <li><strong>Observability Pipeline:</strong> Architected CloudWatch → Splunk HEC ingestion via Terraform, Lambda &amp; Kinesis with real-time subscription filters.</li>
-      <li><strong>Multi-Account Logging &amp; SignalFx:</strong> AFT pipeline distributed logging; standardized SignalFx dashboards via reusable Terraform modules; EventBridge → Splunk routing.</li>
-      <li><strong>CI/CD:</strong> One-click multi-environment pipelines (DEV/UT/SIT/PT/VAL/PROD) via Azure DevOps, CloudFormation &amp; Jenkins.</li>
-      <li><strong>LLM Automation:</strong> Building AI agents with Amazon Q, ChatGPT &amp; Claude to reduce infrastructure operational toil.</li>
-    </ul>
-  </div>
+      <!-- TIAA -->
+      <div class="exp-card open rv d2">
+        <div class="exp-head" onclick="toggleCard(this)">
+          <div>
+            <div class="exp-period">Aug 2023 — Present</div>
+            <div class="exp-role">Senior Analyst — Cloud Infrastructure &amp; SRE</div>
+            <div class="exp-co">TIAA Global Capabilities · Pune, Maharashtra</div>
+          </div>
+          <button class="exp-btn" aria-label="toggle">+</button>
+        </div>
+        <div class="exp-body">
+          <div class="exp-bullets">
+            <div class="ebul"><strong>FinOps — $395K+ Annual Savings:</strong> Transitioned Kinesis Data Streams Provisioned → On-Demand saving $375K/yr; additional $10K/yr from EBS/EC2 remediation and $10K/month from Lambda memory optimization.</div>
+            <div class="ebul"><strong>App Decommissioning Automation:</strong> Boto3 + Terraform framework to identify, archive, and terminate orphaned AWS resources (EC2, EBS, RDS, S3, Lambda, IAM) — reducing manual effort by 80%.</div>
+            <div class="ebul"><strong>Deprecation Monitoring &amp; Alerting:</strong> AWS Health API + Lambda detecting EOL service versions; automated SES email alerts to resource owners for timely upgrades and compliance.</div>
+            <div class="ebul"><strong>Compliance Automation:</strong> Lambda-based framework auditing AWS resources for tagging, encryption, and App ID standards — auto-deleting non-compliant resources with team notifications.</div>
+            <div class="ebul"><strong>Runtime Deprecation Scanner:</strong> Org-wide scanner for deprecated Lambda, EKS, and ECS runtimes with targeted owner notifications via internal API integration.</div>
+            <div class="ebul"><strong>Observability Pipeline:</strong> CloudWatch → Splunk HEC ingestion via Terraform, Lambda &amp; Kinesis with real-time subscription filters; standardised SignalFx dashboards org-wide.</div>
+            <div class="ebul"><strong>Multi-Account Logging:</strong> Deployed distributed logging via AFT pipelines across the full org; EventBridge → Splunk routing via reusable Terraform modules.</div>
+            <div class="ebul"><strong>CI/CD &amp; LLM Agents:</strong> One-click multi-env pipelines (DEV→PROD) via Azure DevOps + Jenkins. Building AI agents with Amazon Q, ChatGPT &amp; Claude to reduce operational toil.</div>
+          </div>
+        </div>
+      </div>
 
-  <div class="exp-item reveal">
-    <div class="exp-header">
-      <span class="exp-role">Software Development Engineer 2 — DevOps</span>
-      <span class="exp-period">Oct 2020 — Aug 2023</span>
+      <!-- Genpact -->
+      <div class="exp-card rv d3">
+        <div class="exp-head" onclick="toggleCard(this)">
+          <div>
+            <div class="exp-period">Oct 2020 — Aug 2023</div>
+            <div class="exp-role">Software Development Engineer 2 — DevOps</div>
+            <div class="exp-co">Genpact · Pune, Maharashtra</div>
+          </div>
+          <button class="exp-btn" aria-label="toggle">+</button>
+        </div>
+        <div class="exp-body">
+          <div class="exp-bullets">
+            <div class="ebul"><strong>CI/CD Automation:</strong> Fully automated multi-environment pipelines using Azure DevOps, CloudFormation &amp; Jenkins enabling one-click application and infrastructure releases.</div>
+            <div class="ebul"><strong>Python/Boto3 Automation:</strong> Authored scripts to terminate idle EC2 instances, enforce tagging standards, and remove unused infrastructure — reducing manual overhead significantly.</div>
+            <div class="ebul"><strong>Container Orchestration:</strong> Orchestrated containerised workloads on Amazon EKS using Kubernetes and Helm; managed Docker images via ECR through AWS CI/CD pipelines.</div>
+            <div class="ebul"><strong>IaC &amp; Monitoring:</strong> Authored CloudFormation and Terraform for EC2/VPC; configured CloudWatch for centralised log management and infrastructure monitoring.</div>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="exp-company">Genpact · Pune, Maharashtra</div>
-    <ul class="exp-list">
-      <li><strong>CI/CD Automation:</strong> Fully automated multi-environment pipelines using Azure DevOps, CloudFormation &amp; Jenkins enabling one-click application and infrastructure releases.</li>
-      <li><strong>Python/Boto3 Automation:</strong> Scripts to terminate idle EC2, enforce tagging standards, and remove unused infrastructure.</li>
-      <li><strong>Container Orchestration:</strong> EKS workloads with Kubernetes and Helm; Docker image management via ECR through AWS CI/CD pipelines.</li>
-      <li><strong>IaC &amp; Monitoring:</strong> CloudFormation and Terraform for EC2/VPC; CloudWatch for centralized log management and infrastructure monitoring.</li>
-    </ul>
   </div>
 </section>
 
 <!-- SKILLS -->
 <section id="skills">
-  <div class="sec-cmd reveal"><span class="prompt">❯</span><span class="path">ls -la /skills</span><span class="comment"># full stack</span></div>
-  <h2 class="sec-title reveal">Technical Skills</h2>
-  <div class="skills-output reveal">kubernetes | docker | aws | terraform | argocd | helm | python | splunk | prometheus | signalfx ...</div>
-  <div class="skills-grid reveal">
-    <div class="skill-group">
-      <div class="skill-group-title">Cloud / AWS</div>
-      <ul class="skill-list">
-        <li>EC2 / EBS / S3 / RDS</li>
-        <li>Lambda / Kinesis / SES</li>
-        <li>IAM / VPC / Route 53</li>
-        <li>EKS / ECR</li>
-        <li>CloudTrail / EventBridge</li>
-        <li>AWS Health API</li>
-      </ul>
+  <div class="eyebrow rv">Expertise</div>
+  <h2 class="sec-title rv d1">Skills &amp; Stack</h2>
+
+  <!-- Row 1: 3 cols -->
+  <div class="bento rv d2">
+    <div class="bc">
+      <div class="bc-title">☁ Cloud / AWS</div>
+      <div class="bc-tags">
+        <span class="btag">EC2 / EBS / S3</span><span class="btag">RDS</span>
+        <span class="btag">Lambda</span><span class="btag">Kinesis</span>
+        <span class="btag">IAM / VPC</span><span class="btag">Route 53</span>
+        <span class="btag">CloudTrail</span><span class="btag">EventBridge</span>
+        <span class="btag">SES</span><span class="btag">ECR</span>
+        <span class="btag">AWS Health API</span>
+      </div>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Container & Orchestration</div>
-      <ul class="skill-list">
-        <li>Kubernetes</li>
-        <li>Amazon EKS</li>
-        <li>Docker</li>
-        <li>Helm</li>
-        <li>Argo CD</li>
-        <li>Argo Workflows</li>
-      </ul>
+    <div class="bc">
+      <div class="bc-title">⚙ IaC &amp; CI/CD</div>
+      <div class="bc-tags">
+        <span class="btag">Terraform</span><span class="btag">CloudFormation</span>
+        <span class="btag">Jenkins</span><span class="btag">GitLab CI</span>
+        <span class="btag">GitHub Actions</span><span class="btag">Azure DevOps</span>
+        <span class="btag">Ansible</span><span class="btag">Argo CD</span>
+      </div>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">IaC & CI/CD</div>
-      <ul class="skill-list">
-        <li>Terraform</li>
-        <li>CloudFormation</li>
-        <li>Jenkins</li>
-        <li>GitLab CI</li>
-        <li>GitHub Actions</li>
-        <li>Azure DevOps</li>
-        <li>Ansible</li>
-      </ul>
+    <div class="bc">
+      <div class="bc-title">🐳 Containers &amp; Orchestration</div>
+      <div class="bc-tags">
+        <span class="btag">Kubernetes</span><span class="btag">Amazon EKS</span>
+        <span class="btag">Docker</span><span class="btag">Helm</span>
+        <span class="btag">Argo Workflows</span><span class="btag">ECR</span>
+      </div>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Observability</div>
-      <ul class="skill-list">
-        <li>Splunk HEC</li>
-        <li>SignalFx</li>
-        <li>Prometheus</li>
-        <li>CloudWatch</li>
-        <li>Grafana</li>
-      </ul>
+  </div>
+
+  <!-- Row 2: 4 cols -->
+  <div class="bento-row2 rv d3">
+    <div class="bc">
+      <div class="bc-title">📊 Observability</div>
+      <div class="bc-tags">
+        <span class="btag">Splunk HEC</span><span class="btag">SignalFx</span>
+        <span class="btag">Prometheus</span><span class="btag">CloudWatch</span>
+        <span class="btag">Grafana</span>
+      </div>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Languages & Scripting</div>
-      <ul class="skill-list">
-        <li>Python</li>
-        <li>Boto3</li>
-        <li>Bash / Shell</li>
-      </ul>
+    <div class="bc">
+      <div class="bc-title">💰 FinOps</div>
+      <div class="bc-tags">
+        <span class="btag">Cost Optimization</span>
+        <span class="btag">Right-Sizing</span>
+        <span class="btag">On-Demand Migration</span>
+        <span class="btag">Resource Tagging</span>
+      </div>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">AI & Automation</div>
-      <ul class="skill-list">
-        <li>Amazon Q</li>
-        <li>Claude AI</li>
-        <li>ChatGPT</li>
-        <li>LLM Agents</li>
-        <li>DevOps Automation</li>
-      </ul>
+    <div class="bc">
+      <div class="bc-title">🤖 AI &amp; LLM</div>
+      <div class="bc-tags">
+        <span class="btag">Amazon Q</span><span class="btag">Claude AI</span>
+        <span class="btag">ChatGPT</span><span class="btag">LLM Agents</span>
+        <span class="btag">DevOps Automation</span>
+      </div>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">FinOps & Security</div>
-      <ul class="skill-list">
-        <li>FinOps / Cost Optimization</li>
-        <li>IAM Governance</li>
-        <li>DevSecOps</li>
-        <li>Resource Tagging</li>
-        <li>Encryption Enforcement</li>
-      </ul>
+    <div class="bc">
+      <div class="bc-title">🔧 SRE &amp; Security</div>
+      <div class="bc-tags">
+        <span class="btag">SLOs / SLAs</span>
+        <span class="btag">Incident Response</span>
+        <span class="btag">GitOps</span>
+        <span class="btag">DevSecOps</span>
+        <span class="btag">IAM Governance</span>
+      </div>
     </div>
-    <div class="skill-group">
-      <div class="skill-group-title">SRE & Practices</div>
-      <ul class="skill-list">
-        <li>SLOs / SLAs</li>
-        <li>Incident Response</li>
-        <li>GitOps</li>
-        <li>Agile / Scrum</li>
-        <li>On-Call Operations</li>
-      </ul>
+  </div>
+
+  <!-- Row 3: big stat + lang + soft -->
+  <div class="bento-row3 rv d4">
+    <div class="bc bc-big">
+      <div class="big-n">$395K+</div>
+      <div class="big-l">Annual cloud savings engineered — the real measure of DevOps impact.</div>
+    </div>
+    <div class="bc">
+      <div class="bc-title">🐍 Languages</div>
+      <div class="bc-tags">
+        <span class="btag">Python</span><span class="btag">Boto3</span>
+        <span class="btag">Bash / Shell</span>
+      </div>
+    </div>
+    <div class="bc">
+      <div class="bc-title">🤝 Soft Skills</div>
+      <div class="bc-tags">
+        <span class="btag">Leadership</span><span class="btag">Mentoring</span>
+        <span class="btag">Collaboration</span><span class="btag">Problem-Solving</span>
+        <span class="btag">Communication</span>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- PROJECTS -->
 <section id="projects">
-  <div class="sec-cmd reveal"><span class="prompt">❯</span><span class="path">git log --oneline /projects</span><span class="comment"># key initiatives</span></div>
-  <h2 class="sec-title reveal">Key Projects</h2>
-  <div class="project-grid">
-    <div class="project-card reveal">
-      <div class="project-header">
-        <div class="project-name">FinOps — $395K+ Annual AWS Savings</div>
-        <div class="project-tags"><span class="project-tag">AWS</span><span class="project-tag">Kinesis</span><span class="project-tag">Lambda</span><span class="project-tag">EC2</span><span class="project-tag">EBS</span></div>
+  <div class="wrap">
+    <div class="eyebrow rv">Portfolio</div>
+    <h2 class="sec-title rv d1">Key Projects</h2>
+    <div class="proj-grid">
+      <div class="pc rv d1">
+        <div class="pc-num">01.</div>
+        <div class="pc-name">FinOps — $395K+ Annual AWS Savings</div>
+        <div class="pc-desc">Led Kinesis Data Streams migration from Provisioned to On-Demand capacity, achieving $375K/yr in savings. Right-sized Lambda memory and remediated EBS/EC2/Elastic IPs for additional savings — largest single-engineer cost optimisation at TIAA.</div>
+        <div class="pc-tags"><span class="ptag">AWS</span><span class="ptag">Kinesis</span><span class="ptag">Lambda</span><span class="ptag">EC2</span><span class="ptag">FinOps</span></div>
       </div>
-      <p class="project-desc">Led Kinesis Data Streams migration from Provisioned to On-Demand capacity, achieving $375K/yr in savings. Delivered additional $10K/yr via EBS/EC2 remediation and $10K/month through Lambda memory right-sizing. Largest single-engineer cost optimization initiative at TIAA Global Capabilities.</p>
-    </div>
-    <div class="project-card reveal">
-      <div class="project-header">
-        <div class="project-name">App Decommissioning Automation Framework</div>
-        <div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">Boto3</span><span class="project-tag">Terraform</span><span class="project-tag">IAM</span></div>
+      <div class="pc rv d2">
+        <div class="pc-num">02.</div>
+        <div class="pc-name">App Decommissioning Automation Framework</div>
+        <div class="pc-desc">Engineered a Boto3 + Terraform framework to systematically identify, archive, and terminate orphaned AWS resources — eliminating resource drift and reducing manual decommissioning effort by 80%.</div>
+        <div class="pc-tags"><span class="ptag">Python</span><span class="ptag">Boto3</span><span class="ptag">Terraform</span><span class="ptag">IAM</span></div>
       </div>
-      <p class="project-desc">Engineered a Boto3 + Terraform framework to systematically identify, archive, and terminate orphaned AWS resources (EC2, EBS, RDS, S3, Lambda, IAM) — eliminating resource drift and reducing manual decommissioning effort by 80%.</p>
-    </div>
-    <div class="project-card reveal">
-      <div class="project-header">
-        <div class="project-name">Observability Pipeline — CloudWatch to Splunk</div>
-        <div class="project-tags"><span class="project-tag">CloudWatch</span><span class="project-tag">Splunk HEC</span><span class="project-tag">Kinesis</span><span class="project-tag">Lambda</span><span class="project-tag">Terraform</span></div>
+      <div class="pc rv d3">
+        <div class="pc-num">03.</div>
+        <div class="pc-name">CloudWatch → Splunk Observability Pipeline</div>
+        <div class="pc-desc">Architected scalable log ingestion to Splunk via HEC using Terraform, Lambda, and Kinesis Data Streams with real-time subscription filters. Standardised SignalFx dashboards org-wide via reusable Terraform modules.</div>
+        <div class="pc-tags"><span class="ptag">CloudWatch</span><span class="ptag">Splunk</span><span class="ptag">Kinesis</span><span class="ptag">Terraform</span></div>
       </div>
-      <p class="project-desc">Architected scalable CloudWatch log ingestion to Splunk via HEC using Terraform, Lambda, and Kinesis Data Streams with real-time subscription filters. Standardized SignalFx dashboards via reusable Terraform modules across the entire organization.</p>
-    </div>
-    <div class="project-card reveal">
-      <div class="project-header">
-        <div class="project-name">Runtime Deprecation &amp; Compliance Automation</div>
-        <div class="project-tags"><span class="project-tag">AWS Health API</span><span class="project-tag">Lambda</span><span class="project-tag">SES</span><span class="project-tag">EKS</span><span class="project-tag">ECS</span></div>
+      <div class="pc rv d1">
+        <div class="pc-num">04.</div>
+        <div class="pc-name">Runtime Deprecation &amp; Compliance Automation</div>
+        <div class="pc-desc">Org-wide automation detecting deprecated Lambda, EKS, and ECS runtimes. Integrated with internal APIs to retrieve app owner emails and dispatch targeted remediation notifications ensuring governance at scale.</div>
+        <div class="pc-tags"><span class="ptag">AWS Health API</span><span class="ptag">Lambda</span><span class="ptag">SES</span><span class="ptag">EKS</span></div>
       </div>
-      <p class="project-desc">Built org-wide automation detecting deprecated Lambda runtimes, EKS cluster versions, and ECS task definitions. Integrated with internal APIs to retrieve app owner emails and dispatch targeted remediation notifications — ensuring governance at scale.</p>
-    </div>
-    <div class="project-card reveal">
-      <div class="project-header">
-        <div class="project-name">LLM-Powered DevOps Automation Agents</div>
-        <div class="project-tags"><span class="project-tag">Amazon Q</span><span class="project-tag">Claude AI</span><span class="project-tag">ChatGPT</span><span class="project-tag">Python</span></div>
+      <div class="pc rv d2">
+        <div class="pc-num">05.</div>
+        <div class="pc-name">Multi-Env CI/CD Pipeline Automation</div>
+        <div class="pc-desc">Built one-click pipelines spanning DEV → UT → SIT → PT → VAL → PROD enabling zero-touch releases for application and infrastructure using Azure DevOps, CloudFormation, and Jenkins.</div>
+        <div class="pc-tags"><span class="ptag">Azure DevOps</span><span class="ptag">Jenkins</span><span class="ptag">CloudFormation</span></div>
       </div>
-      <p class="project-desc">Actively building AI agents leveraging Amazon Q, Claude, and ChatGPT to streamline infrastructure workflows — automating runbook generation, alert triage, and operational toil reduction across real-world SRE challenges.</p>
+      <div class="pc rv d3">
+        <div class="pc-num">06.</div>
+        <div class="pc-name">LLM-Powered DevOps Automation Agents</div>
+        <div class="pc-desc">Building AI agents leveraging Amazon Q, Claude AI, and ChatGPT to automate runbook generation, alert triage, and infrastructure workflows — applying LLM automation to reduce operational toil across SRE functions.</div>
+        <div class="pc-tags"><span class="ptag">Amazon Q</span><span class="ptag">Claude AI</span><span class="ptag">Python</span><span class="ptag">LLM</span></div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- AWARDS -->
 <section id="awards">
-  <div class="sec-cmd reveal"><span class="prompt">❯</span><span class="path">cat awards.log</span><span class="comment"># recognition</span></div>
-  <h2 class="sec-title reveal">Awards</h2>
-  <div class="awards-list">
-    <div class="award-item reveal">
-      <div class="award-icon">🥈</div>
+  <div class="eyebrow rv">Recognition</div>
+  <h2 class="sec-title rv d1">Awards</h2>
+  <div class="awards-grid">
+    <div class="aw rv d1">
+      <div class="aw-icon">🥈</div>
       <div>
-        <div class="award-title">Silver Award — TIAA Global Capabilities</div>
-        <div class="award-desc">Outstanding leadership in cloud infrastructure excellence. Recognized for driving significant platform improvements and cross-functional engineering collaboration.</div>
+        <div class="aw-title">Silver Award</div>
+        <div class="aw-co">TIAA Global Capabilities</div>
       </div>
+      <div class="aw-desc">Outstanding leadership in cloud infrastructure excellence — recognised for driving significant platform improvements and cross-functional engineering collaboration.</div>
     </div>
-    <div class="award-item reveal">
-      <div class="award-icon">🥉</div>
+    <div class="aw rv d2">
+      <div class="aw-icon">🥉</div>
       <div>
-        <div class="award-title">Bronze Award — TIAA Global Capabilities</div>
-        <div class="award-desc">Exceptional teamwork and technical problem-solving skills recognized at the organizational level for impactful engineering contributions.</div>
+        <div class="aw-title">Bronze Award</div>
+        <div class="aw-co">TIAA Global Capabilities</div>
       </div>
+      <div class="aw-desc">Exceptional teamwork and technical problem-solving skills recognised at the organisational level for impactful engineering contributions.</div>
     </div>
-    <div class="award-item reveal">
-      <div class="award-icon">💸</div>
+    <div class="aw rv d3">
+      <div class="aw-icon">💸</div>
       <div>
-        <div class="award-title">Cost Optimization Champion</div>
-        <div class="award-desc">Delivered $395,000+ in annual AWS savings via targeted FinOps — Kinesis On-Demand migration, EBS/EC2 remediation, and Lambda memory optimization.</div>
+        <div class="aw-title">Cost Optimisation Champion</div>
+        <div class="aw-co">$395,000+ Annual Savings</div>
       </div>
+      <div class="aw-desc">Delivered the highest individual cost savings via targeted FinOps — Kinesis On-Demand migration, EBS/EC2 remediation, and Lambda memory optimisation.</div>
     </div>
   </div>
 </section>
 
 <!-- EDUCATION -->
 <section id="education">
-  <div class="sec-cmd reveal"><span class="prompt">❯</span><span class="path">cat education.yaml</span></div>
-  <h2 class="sec-title reveal">Education</h2>
-  <div class="edu-list">
-    <div class="edu-item reveal">
-      <div><div class="edu-degree">Master of Computer Applications (MCA)</div><div class="edu-school">NIT Surathkal, Karnataka</div></div>
-      <div class="edu-year">2017 — 2020</div>
-    </div>
-    <div class="edu-item reveal">
-      <div><div class="edu-degree">B.Sc. Computer Science</div><div class="edu-school">Govt. College Barwani, MP</div></div>
-      <div class="edu-year">2013 — 2016</div>
+  <div class="wrap">
+    <div class="eyebrow rv">Academic</div>
+    <h2 class="sec-title rv d1">Education</h2>
+    <div class="edu-grid">
+      <div class="ec rv d2">
+        <div>
+          <div class="ec-badge">Tier 1 · NIT</div>
+          <div class="ec-deg">Master of Computer Applications (MCA)</div>
+          <div class="ec-school">NIT Surathkal, Karnataka</div>
+        </div>
+        <div class="ec-year">2017 — 2020</div>
+      </div>
+      <div class="ec rv d3">
+        <div>
+          <div class="ec-badge">B.Sc.</div>
+          <div class="ec-deg">Bachelor of Science — Computer Science</div>
+          <div class="ec-school">Govt. College Barwani, MP</div>
+        </div>
+        <div class="ec-year">2013 — 2016</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="sec-cmd reveal"><span class="prompt">❯</span><span class="path">echo $CONTACT_INFO</span></div>
-  <h2 class="sec-title reveal">Contact Me</h2>
-  <div class="contact-links reveal">
-    <a href="mailto:lakhan.parmar1725@gmail.com" class="contact-link"><span class="lbl">email:</span>lakhan.parmar1725@gmail.com</a>
-    <a href="tel:+919113536834" class="contact-link"><span class="lbl">phone:</span>+91-9113536834</a>
-    <a href="https://www.linkedin.com/in/lakhan-parmar-716aa815a/" target="_blank" class="contact-link"><span class="lbl">linkedin:</span>linkedin.com/in/lakhan-parmar-716aa815a</a>
-    <div class="contact-link"><span class="lbl">location:</span>Pune, Maharashtra, India</div>
+  <div class="contact-box rv">
+    <div>
+      <div class="eyebrow" style="margin-bottom:1rem">Let's Talk</div>
+      <h2 class="contact-head">Let's build something <em>exceptional</em> together.</h2>
+      <p class="contact-sub" style="margin-top:.9rem">Senior DevOps and Platform Engineering professional with proven enterprise impact and NIT-calibre engineering foundations. Passionate about automation at scale.</p>
+    </div>
+    <div class="clinks">
+      <a href="mailto:lakhan.parmar1725@gmail.com" class="clink">
+        <span class="clbl">Email</span>lakhan.parmar1725@gmail.com
+      </a>
+      <a href="tel:+919113536834" class="clink">
+        <span class="clbl">Phone</span>+91-9113536834
+      </a>
+      <a href="https://www.linkedin.com/in/lakhan-parmar-716aa815a/" target="_blank" class="clink">
+        <span class="clbl">LinkedIn</span>linkedin.com/in/lakhan-parmar
+      </a>
+      <div class="clink">
+        <span class="clbl">Location</span>Pune, Maharashtra, India
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>ssh -i id_rsa lakhan-parmar.github.io</p>
-  <p style="margin-top:0.4rem">Let's connect and build something amazing together!</p>
-  <p style="margin-top:0.75rem">© 2025 Lakhan Parmar | DevOps &amp; Cloud Engineer</p>
-  <p>Powered by <span>Kubernetes</span>, <span>Terraform</span>, and a passion for automation</p>
+  <span>© 2025 Lakhan Parmar · DevOps &amp; Cloud Engineer</span>
+  <span>Hosted on <a href="https://pages.github.com" target="_blank">GitHub Pages</a></span>
 </footer>
 
 <script>
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 50);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => observer.observe(el));
-
-  // Typewriter for hero stat values
-  window.addEventListener('load', () => {
-    const items = document.querySelectorAll('.hero-stat .val');
-    items.forEach((el, i) => {
-      const text = el.textContent;
-      el.textContent = '';
-      setTimeout(() => {
-        let j = 0;
-        const iv = setInterval(() => {
-          el.textContent += text[j++];
-          if (j >= text.length) clearInterval(iv);
-        }, 25);
-      }, 800 + i * 300);
-    });
+// ── Reveal on scroll (fires immediately for in-viewport elements too)
+const revealAll = () => {
+  document.querySelectorAll('.rv').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.92) el.classList.add('show');
   });
+};
+window.addEventListener('scroll', revealAll, { passive: true });
+window.addEventListener('resize', revealAll, { passive: true });
+// Run on load — small timeout ensures fonts/layout are settled
+setTimeout(revealAll, 80);
+
+// ── Accordion toggle
+function toggleCard(header) {
+  const card = header.closest('.exp-card');
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.exp-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
 </script>
 </body>
 </html>
